@@ -1,7 +1,7 @@
 import {useEffect, useRef} from 'react'
+import { useAnimations, useGLTF } from '@react-three/drei'
 
 import planeScene from '../assets/3d/plane.glb'
-import { useAnimations, useGLTF } from '@react-three/drei'
 
 const Plane = ({isRotating, ...props}) => {
   const ref = useRef();
@@ -9,6 +9,8 @@ const Plane = ({isRotating, ...props}) => {
   const {actions} = useAnimations(animations, ref)
 
   useEffect( () => {
+    console.log("isRotating",isRotating)
+
     if (isRotating) {
       actions['Take 001'].play()
     } else {

@@ -113,7 +113,7 @@ const Island = ({
       if (Math.abs(rotationSpeed.current) < 0.001) {
         rotationSpeed.current = 0;
       }
-
+      // Applies a slowing down of our airplane
       islandRef.current.rotation.y += rotationSpeed.current;
     } else {
       // When rotating, determine the current stage based on island's orientation
