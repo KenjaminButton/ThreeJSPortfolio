@@ -45,8 +45,13 @@ const Contact = () => {
       // Write code here to show success msg
       // Write code here to hide alert
 
-      // Clearing the form after submission
-      setForm({name: '', email: '', message: ''})
+      setTimeout( () => {
+        setCurrentAnimation('idle')
+        // Clearing the form after submission
+        setForm({name: '', email: '', message: ''})
+      }, [3000])
+
+
     }).catch( (error) => {
       setIsLoading(false)
       setCurrentAnimation('idle')
