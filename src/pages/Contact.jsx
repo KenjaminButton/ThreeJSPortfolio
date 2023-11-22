@@ -3,8 +3,11 @@ import emailjs from '@emailjs/browser'
 import { Canvas } from '@react-three/fiber'
 
 import Loader from '../components/Loader'
+import useAlert from '../hooks/useAlert'
 
 import Fox from '../models/Fox'
+import Alert from '../components/Alert'
+
 
 const Contact = () => {
   const formRef = useRef(null)
@@ -12,6 +15,8 @@ const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: ''})
   const [isLoading, setIsLoading] = useState(false)
   const [currentAnimation, setCurrentAnimation] = useState('idle')
+
+  const {alert, showAlert, hideAlert} = useAlert()
 
   const handleChange = (evt) => {
     setForm({...form, [evt.target.name] : evt.target.value })
@@ -43,9 +48,11 @@ const Contact = () => {
     ).then( () => {
       setIsLoading(false)
       // Write code here to show success msg
+      showAlert({show: true, text: 'Message sent successfully', type: 'success'})
       // Write code here to hide alert
 
       setTimeout( () => {
+        hideAlert()
         setCurrentAnimation('idle')
         // Clearing the form after submission
         setForm({name: '', email: '', message: ''})
@@ -56,12 +63,16 @@ const Contact = () => {
       setIsLoading(false)
       setCurrentAnimation('idle')
       console.log(error)
+      showAlert({show: true, text: 'Message failed', type: 'danger'})
       // Write code here to show error message
     })
   }
 
   return (
     <section className="relative flex lg:flex-row flex-col max-container">
+      {alert.show && <Alert {...alert} />}
+      <Alert {...alert} />
+
       <div className="flex-1 min-w-[50%] flex flex-col">
         <h1 className="head-text">Get in Touch</h1>
 
