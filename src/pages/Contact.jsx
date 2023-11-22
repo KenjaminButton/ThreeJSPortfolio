@@ -11,23 +11,24 @@ const Contact = () => {
 
   const [form, setForm] = useState({ name: '', email: '', message: ''})
   const [isLoading, setIsLoading] = useState(false)
+  const [currentAnimation, setCurrentAnimation] = useState('idle')
 
   const handleChange = (evt) => {
     setForm({...form, [evt.target.name] : evt.target.value })
   }
 
   const handleFocus = () => {
-
+    setCurrentAnimation('walk')
   }
 
   const handleBlur = () => {
-
+    setCurrentAnimation('idle')
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
     setIsLoading(true)
-
+    setCurrentAnimation('hit')
     emailjs.send(
       import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
       import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
@@ -45,6 +46,7 @@ const Contact = () => {
       // Write code here to hide alert
     }).catch( (error) => {
       setIsLoading(false)
+      setCurrentAnimation('idle')
       console.log(error)
       // Write code here to show error message
     })
@@ -119,13 +121,19 @@ const Contact = () => {
       <div className="lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]">
         <Canvas
           camera={{
-            position: [0, 0, 5]
+            position: [0, 0, 5],
+            fov: 75,
+            near: 0.1,
+            far: 1000
           }}
         >
+          <directionalLight intensity={2.5} position={[0, 0, 1]}/>
+          <ambientLight intensity={0.5} />
           <Suspense fallback={<Loader />}>
             <Fox 
+              currentAnimation={currentAnimation}
               position={[0.5, 0.35, 0]}
-              rotation={[12, 0, 0]}
+              rotation={[12.6, -0.6, 0]}
               scale={[0.5, 0.5, 0.5]}
             />
           </Suspense>
