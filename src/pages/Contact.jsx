@@ -44,6 +44,9 @@ const Contact = () => {
       setIsLoading(false)
       // Write code here to show success msg
       // Write code here to hide alert
+
+      // Clearing the form after submission
+      setForm({name: '', email: '', message: ''})
     }).catch( (error) => {
       setIsLoading(false)
       setCurrentAnimation('idle')
